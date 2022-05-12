@@ -1,6 +1,15 @@
 version: '3.8'
 
 services:
+  db:
+    container_name: postgres-db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: test_db
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data 
   nestjs:
     container_name: nestjs
     image: nestjs:1.0.0
@@ -20,26 +29,25 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     restart: unless-stopped
-  db:
-    image: postgres
+    depends_on:
+      - db
+  pgadmin:
+    image: dpage/pgadmin4
     restart: always
+    container_name: nest-pgadmin4
     environment:
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: test_db
-    networks:
-      - nestjs-network
-    ports:
-      - "3308:3306"
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
-    environment:
-      PMA_USER: root
-      PMA_PASSWORD: root
-    networks:
-      - nestjs-network
+      - PGADMIN_DEFAULT_EMAIL=jeremy.barette@outlook.fr
+      - PGADMIN_DEFAULT_PASSWORD=root
+      - PGADMIN_LISTEN_PORT=80
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - db
     ports:
       - "8080:80"
 networks:
   nestjs-network:
     driver: bridge
+volumes:
+  pgdata:
+  pgadmin-data:

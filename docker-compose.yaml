@@ -15,22 +15,31 @@ services:
     expose:
       - "443"
     networks:
-      - nesjs-network
+      - nestjs-network
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     restart: unless-stopped
-  postgre:
+  db:
     image: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: test_db
     networks:
-      - nesjs-network
-  adminer:
-    image: adminer
-    restart: always
+      - nestjs-network
     ports:
-      - 8080:8080
+      - "3308:3306"
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    environment:
+      PMA_USER: root
+      PMA_PASSWORD: root
+    networks:
+      - nestjs-network
+    ports:
+      - "8080:80"
 networks:
-  nesjs-network:
+  nestjs-network:
+    driver: bridge

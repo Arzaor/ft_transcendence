@@ -10,7 +10,7 @@ import { UserModule } from './user/user.module';
 		"type": "postgres",
 		"host": "db",
 		"port": 5432,
-		"username": "postgres",
+		"username": "jbarette",
 		"password": "root",
 		"database": "test_db",
 		"entities": [User],

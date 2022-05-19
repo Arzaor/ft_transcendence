@@ -35,16 +35,20 @@ services:
     restart: always
     networks:
       - nestjs-network
-  nginx:
-    image: nginx:latest
+  angular:
+    depends_on:
+      - nestjs
+    build:
+      context: ./front
+    image: angularjs
+    container_name: angular
     ports:
-      - 443:443
+      - 4200:4200
+    environment:
+      - NGINX_PORT=4200
+    networks:
+      - nestjs-network
     restart: always
-    volumes:
-      - ./front/nginx/conf/:/etc/nginx/conf.d/
-      - ./front/nginx/ssl/certs/:/etc/ssl/certs/
-      - ./front/nginx/ssl/private/:/etc/ssl/private/
-      - ./front/angular:/var/www/html/src
 
 networks:
   nestjs-network:

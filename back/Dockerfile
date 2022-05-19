@@ -1,13 +1,17 @@
-FROM node:18.1.0 AS development
+# syntax=docker/dockerfile:1
+
+FROM node:16
 
 WORKDIR /back
 
-COPY package*.json ./
+COPY package*.json .
 
 RUN npm i
 
 COPY . .
 
+RUN npm run build
+
 EXPOSE 3000
 
-CMD [ "npm", "run", "start:dev" ]
+CMD [ "npm", "run", "start:prod" ]

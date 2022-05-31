@@ -26,6 +26,8 @@
     "@nestjs/platform-express": "^8.1.1",
     "@nestjs/typeorm": "^8.0.3",
     "connect-ensure-login": "^0.1.1",
+    "dotenv": "^16.0.1",
+    "passport": "^0.6.0",
     "passport-42": "^1.2.6",
     "passport-local": "^1.0.0",
     "pg": "^8.7.3",
